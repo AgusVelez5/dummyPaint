@@ -17,21 +17,16 @@ bonus:
 
 class Line(Figure):
     def __init__(self, tbox, x, y):
-        super(Rectangle, self).__init__(tbox)
+        super(Line, self).__init__(tbox)
         self.tbox = tbox
 
         self.data = '' 
-
-        #posicion donde se instancia la iamgen
         self.origin = x, y
 
-        #marcador superior izquierda
-        self.marker1 = Marker(self.tbox.layer, x, y, 2, "Red", self.moveto)
+        self.marker_move = Marker(self.tbox.layer, x, y, 2, "Green", self.moveto)
 
         stroke_color = self.to_rgba(self.tbox.stroke_colbtn.get_rgba())
-
         fill_color = self.to_rgba(self.tbox.fill_colbtn.get_rgba())
-
         line_width = self.tbox.spbtn.get_value()
 
         # son los puntos de tu linea
@@ -49,14 +44,18 @@ class Line(Figure):
             parent = tbox.layer, 
             x = x, 
             y = y, 
-            data=self.data,
+            data = self.data,
+            width = 0, 
+            height = 0,
             fill_color_rgba = fill_color,
-            stroke_color_rgba= stroke_color,
-            line_width=line_width
+            stroke_color_rgba = stroke_color,
+            line_width = line_width
         )
 
-        self.id_release = tbox.layer.connect("button-release-event", self.button_released) #evento que apreta boton
+        self.id_release = tbox.layer.connect("button-release-event", self.button_released)
         self.id_moved = tbox.layer.connect("motion-notify-event", self.button_moved)
+
+        
 
     def button_released(self, src, tgt, event):
         # reescalar en la creacion
@@ -67,20 +66,20 @@ class Line(Figure):
         self.tbox.layer.disconnect(self.id_release)
         self.tbox.layer.disconnect(self.id_moved)
 
+
+        x_med, y_med = (event.x - self.origin[0])/2 , (event.y - self.origin[1])/2
+
+        #marcador del medio.
+        self.marker_curve = Marker(self.tbox.layer, x_med, y_med, 2, "Blue", callback=self.mover_medio)
+
         #marcador inferior derecha
         #cambiar 2 por 3
-        self.marker2 = Marker(self.tbox.layer, event.x, event.y, 2, "Red", callback=self.resize)
+        self.marker_resize = Marker(self.tbox.layer, event.x, event.y, 2, "Green", callback=self.resize)
         self.point_line[3][0] = event.x
         self.point_line[3][1] = event.y
         
+        self.draw()
         
-        new_x, new_y = (event.x - self.origin[0])/2 , (event.y - self.origin[1])/2
-
-        #marcador del medio.
-        self.marker3 = Marker(self.tbox.layer, new_x, new_y, 2, "Blue", callback=self.mover_medio)
-        # seteat point
-
-        #llamar draw
 
     def to_rgba(self, stroke_color):
         return  ((int(stroke_color.red * 255) << 24) +
@@ -95,7 +94,7 @@ class Line(Figure):
         height = event.y - self.origin[1]
         #self.line.set_property('width', width)
         #self.line.set_property('height', height)
-        #self.tbox.layer.disconnect(self.id_moved)
+        self.tbox.layer.disconnect(self.id_moved)
 
     def moveto(self, x, y): 
         self.line.set_property('x', x)
@@ -118,14 +117,12 @@ class Line(Figure):
         self.draw()
 
     def draw(self):
-        "dibujar el linea"
-        # capsa es props o prop
-        self.line.props.data = 'M {:g} {:g} Q{:g} {:g} {:g} {:g} Z'.format(self.point_line[0][0], self.point_line[0][1], self.point_line[1][0], self.point_line[1][1], self.point_line[2][0], self.point_line[2][1] )
+        self.data = 'M {:g} {:g} Q{:g} {:g} {:g} {:g} Z'.format(self.point_line[0][0], self.point_line[0][1], self.point_line[1][0], self.point_line[1][1], self.point_line[2][0], self.point_line[2][1] )
 
 
     def mover_medio(self, xnew, ynew):
         # x e y son los puntos que moves el marcador
         # esta funcion sirve para mover el punto del medio
         # al final volver a llamar la funcion draw()
-        pass
+        self.draw()
 

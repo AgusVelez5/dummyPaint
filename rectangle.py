@@ -54,7 +54,7 @@ class Rectangle(Figure):
         height = event.y - self.origin[1]
         self.line.set_property('width', width)
         self.line.set_property('height', height)
-        #self.tbox.layer.disconnect(self.id_moved)
+        
 
     def moveto(self, x, y):
         self.line.set_property('x', x)

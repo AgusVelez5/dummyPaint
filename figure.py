@@ -1,4 +1,4 @@
-class Figure():
+class Figure(object):
     def __init__(self, tbox):
         """ 
         Tarea comun: Buscar colores y ancho del trazo actualmente seleccionados.
