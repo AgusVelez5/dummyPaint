@@ -3,7 +3,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("GooCanvas", "2.0")
 from gi.repository import Gtk, GooCanvas, GdkPixbuf
 from rectangle import Rectangle
-from line import line
+from line import Line
 
 class Toolbox(Gtk.Frame):
     def __init__(self, layer):
@@ -13,7 +13,7 @@ class Toolbox(Gtk.Frame):
         self.layer.connect("button-press-event", self.layer_click)
         self.figure = None
 
-        vbox = Gtk.VBox(margin = 6) # es el menu de la derecha, se van guardando los items
+        vbox = Gtk.VBox(margin = 6)
         self.add(vbox)
 
         lbl = Gtk.Label(label = "Ancho trazo:", xalign = 0)
@@ -36,9 +36,9 @@ class Toolbox(Gtk.Frame):
 
         figuras = (
             ("rectangle.svg", "Rectangulo", Rectangle),
-            ("circle.svg", "line", line),
+            ("circle.svg", "Circulo", None),
             ("text.svg", "Texto", None),
-            ("line.svg", "Lineas", None),
+            ("line.svg", "Lineas", Line),
             ("bezier.svg", "bezier", None)
         )
 
