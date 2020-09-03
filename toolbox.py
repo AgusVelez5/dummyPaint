@@ -4,6 +4,7 @@ gi.require_version("GooCanvas", "2.0")
 from gi.repository import Gtk, GooCanvas, GdkPixbuf
 from rectangle import Rectangle
 from mountain import Mountain
+from triangle import Triangle
 
 class Toolbox(Gtk.Frame):
     def __init__(self, layer):
@@ -36,10 +37,8 @@ class Toolbox(Gtk.Frame):
 
         figuras = (
             ("rectangle.svg", "Rectangulo", Rectangle),
-            ("circle.svg", "Circulo", None),
-            ("text.svg", "Texto", None),
             ("mountain.svg", "Montania", Mountain),
-            ("bezier.svg", "bezier", None)
+            ("triangle.svg", "Triangulo", Triangle),
         )
 
         for file, tooltip, figure in figuras:
