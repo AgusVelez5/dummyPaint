@@ -82,8 +82,8 @@ class Triangle(Figure):
 
         self.points = GooCanvas.CanvasPoints.new(4)
         self.points.set_point(0, x, y) 
-        self.points.set_point(1, x, y)
-        self.points.set_point(2, x, y)
+        self.points.set_point(1, x+2, y)
+        self.points.set_point(2, x+1, y+2)
         self.points.set_point(3, x, y)
 
         self.line = GooCanvas.CanvasPolyline(
