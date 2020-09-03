@@ -3,7 +3,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("GooCanvas", "2.0")
 from gi.repository import Gtk, GooCanvas, GdkPixbuf
 from rectangle import Rectangle
-from line import Line
+from mountain import Mountain
 
 class Toolbox(Gtk.Frame):
     def __init__(self, layer):
@@ -38,7 +38,7 @@ class Toolbox(Gtk.Frame):
             ("rectangle.svg", "Rectangulo", Rectangle),
             ("circle.svg", "Circulo", None),
             ("text.svg", "Texto", None),
-            ("line.svg", "Lineas", Line),
+            ("mountain.svg", "Montania", Mountain),
             ("bezier.svg", "bezier", None)
         )
 
@@ -58,7 +58,6 @@ class Toolbox(Gtk.Frame):
     def figure_selected(self, btn, which):
         self.figure = which
 
-    def layer_click(self, src, target, event): #tambien hay que pasarle una referencia al boton
+    def layer_click(self, src, target, event): 
         if self.figure is not None:
-            # self.figure contiene el objeto a instanciar osea el rectangulo
             self.figure(self, event.x, event.y)
